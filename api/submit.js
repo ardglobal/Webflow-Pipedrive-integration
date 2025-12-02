@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     }
     const personId = personData.data.id;
 
-    // Create Lead
+    // Create Lead with text field for service
     const leadRes = await fetch(`${BASE_URL}/leads?api_token=${API_TOKEN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         title: `${fullname} - ${servicename}`,
         person_id: personId,
         organization_id: orgId,
-        '34dee8032265fd9feb7e2786725b31a3396ec9ef': servicename
+        '45fc36e3d6c0c6a940e6755d9c521a80be160fa9': servicename
       })
     });
     const leadData = await leadRes.json();
