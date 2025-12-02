@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     // Log everything Webflow sends us
     console.log('Full request body:', JSON.stringify(req.body, null, 2));
     
-    const { fullname, emailaddress, phonenumber, companyname, servicename } = req.body;
+    const { fullname, emailaddress, phonenumber, companyname, servicename } = req.body.payload.data;
     console.log('Received data:', { fullname, emailaddress, phonenumber, companyname, servicename });
     
     const API_TOKEN = process.env.PIPEDRIVE_API_TOKEN;
