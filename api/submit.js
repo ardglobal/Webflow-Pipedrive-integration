@@ -7,6 +7,9 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
+    // Log everything Webflow sends us
+    console.log('Full request body:', JSON.stringify(req.body, null, 2));
+    
     const { fullname, emailaddress, phonenumber, companyname, servicename } = req.body;
     console.log('Received data:', { fullname, emailaddress, phonenumber, companyname, servicename });
     
