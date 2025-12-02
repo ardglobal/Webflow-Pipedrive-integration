@@ -8,6 +8,8 @@ export default async function handler(req, res) {
 
   try {
     const { fullname, emailaddress, phonenumber, companyname, servicename } = req.body;
+    console.log('Received data:', { fullname, emailaddress, phonenumber, companyname, servicename });
+    
     const API_TOKEN = process.env.PIPEDRIVE_API_TOKEN;
     const BASE_URL = `https://${process.env.PIPEDRIVE_DOMAIN}.pipedrive.com/api/v1`;
 
@@ -18,6 +20,11 @@ export default async function handler(req, res) {
       body: JSON.stringify({ name: companyname })
     });
     const orgData = await orgRes.json();
+    console.log('Organization response:', orgData);
+    
+    if (!orgData.success || !orgData.data) {
+      throw new Error(`Failed to create organization: ${JSON.stringify(orgData)}`);
+    }
     const orgId = orgData.data.id;
 
     // Create Person
@@ -32,6 +39,11 @@ export default async function handler(req, res) {
       })
     });
     const personData = await personRes.json();
+    console.log('Person response:', personData);
+    
+    if (!personData.success || !personData.data) {
+      throw new Error(`Failed to create person: ${JSON.stringify(personData)}`);
+    }
     const personId = personData.data.id;
 
     // Create Lead
@@ -46,6 +58,11 @@ export default async function handler(req, res) {
       })
     });
     const leadData = await leadRes.json();
+    console.log('Lead response:', leadData);
+    
+    if (!leadData.success || !leadData.data) {
+      throw new Error(`Failed to create lead: ${JSON.stringify(leadData)}`);
+    }
 
     return res.status(200).json({ success: true, leadId: leadData.data.id });
 
