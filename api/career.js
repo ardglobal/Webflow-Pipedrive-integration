@@ -15,15 +15,14 @@ export default async function handler(req, res) {
     const API_TOKEN = process.env.PIPEDRIVE_API_TOKEN;
     const BASE_URL = `https://${process.env.PIPEDRIVE_DOMAIN}.pipedrive.com/api/v1`;
 
-    // Create Person
+    // Create Person (without social link)
     const personRes = await fetch(`${BASE_URL}/persons?api_token=${API_TOKEN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name: fullname,
         email: [emailaddress],
-        phone: [phonenumber],
-        '5e5c224cb0cf2b47358238c62806f38725df3eeb': sociallink
+        phone: [phonenumber]
       })
     });
     const personData = await personRes.json();
@@ -34,14 +33,15 @@ export default async function handler(req, res) {
     }
     const personId = personData.data.id;
 
-    // Create Lead
+    // Create Lead (with both custom fields)
     const leadRes = await fetch(`${BASE_URL}/leads?api_token=${API_TOKEN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: `Job Application - ${fullname}`,
         person_id: personId,
-        '4c93774ffffb80afe6c92a0df3bde9192cdf0859': heardaboutus
+        '4c93774ffffb80afe6c92a0df3bde9192cdf0859': heardaboutus,
+        '5e5c224cb0cf2b47358238c62806f38725df3eeb': sociallink
       })
     });
     const leadData = await leadRes.json();
