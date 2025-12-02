@@ -41,7 +41,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         title: `${fullname} - ${servicename}`,
         person_id: personId,
-        organization_id: orgId
+        organization_id: orgId,
+        '34dee8032265fd9feb7e2786725b31a3396ec9ef': servicename
       })
     });
     const leadData = await leadRes.json();
